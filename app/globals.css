@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.065 0.02 250);
+  --foreground: oklch(0.94 0.01 250);
+  --card: oklch(0.12 0.02 250);
+  --card-foreground: oklch(0.94 0.01 250);
+  --popover: oklch(0.12 0.02 250);
+  --popover-foreground: oklch(0.94 0.01 250);
+  --primary: oklch(0.63 0.22 244);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.18 0.025 250);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.25 0.03 250);
+  --muted-foreground: oklch(0.65 0.02 250);
+  --accent: oklch(0.63 0.22 244);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.97 0 0);
+  --border: oklch(0.18 0.02 250);
+  --input: oklch(0.18 0.02 250);
+  --ring: oklch(0.63 0.22 244);
+  --radius: 0rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-mono: "Geist Mono", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+  }
+  body {
+    @apply bg-background text-foreground antialiased overflow-x-hidden;
+  }
+}
+
+/* Smoother scrolling sections */
+.scroll-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Hide scrollbar */
+body::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, oklch(0.63 0.22 244), oklch(0.7 0.18 235));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, oklch(0.65 0.22 246), oklch(0.55 0.22 250));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle grain texture */
+.grain::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 1000;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Border reveal */
+.border-reveal {
+  position: relative;
+}
+
+.border-reveal::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.border-reveal:hover::after {
+  width: 100%;
+}
+
+/* Glow effects */
+.glow-accent {
+  box-shadow: 0 0 60px -15px oklch(0.63 0.22 244 / 0.3);
+}
+
+.glow-soft {
+  box-shadow: 0 0 100px -20px oklch(0.63 0.22 244 / 0.15);
+}
+
+/* Text reveal animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Horizontal scroll */
+@keyframes scrollX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Service card hover */
+.service-card {
+  transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Process step */
+.process-step {
+  position: relative;
+}
+
+.process-step::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, oklch(0.63 0.22 244), transparent);
+}
+
+.process-step:last-child::before {
+  display: none;
+}
+
+/* Inverted section */
+.section-inverted {
+  background: oklch(0.94 0.01 250);
+  color: oklch(0.065 0.02 250);
+}
+
+/* Custom selection */
+::selection {
+  background: oklch(0.63 0.22 244 / 0.3);
+  color: oklch(0.94 0.01 250);
+}
+
+#protection,
+#services {
+  position: relative;
+}
+
+#protection::before,
+#services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(79, 142, 255, 0.22), transparent 24%),
+    radial-gradient(circle at 82% 20%, rgba(90, 180, 255, 0.16), transparent 18%),
+    radial-gradient(circle at 50% 86%, rgba(47, 98, 230, 0.14), transparent 28%);
+}
